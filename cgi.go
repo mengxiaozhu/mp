@@ -3,7 +3,7 @@ package mp
 import (
 	"encoding/json"
 	"fmt"
-	mpBase "mp/base"
+	mpBase "github.com/mengxiaozhu/mp/base"
 	"net/url"
 )
 

@@ -2,7 +2,7 @@ package mp
 
 import (
 	"encoding/json"
-	"mp/base"
+	"github.com/mengxiaozhu/mp/base"
 	"net/url"
 	"qiniupkg.com/x/log.v7"
 	"time"

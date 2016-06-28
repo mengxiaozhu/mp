@@ -3,7 +3,7 @@ package mp
 import (
 	"bytes"
 	"encoding/json"
-	"mp/base"
+	"github.com/mengxiaozhu/mp/base"
 	"io"
 	"io/ioutil"
 	"mime/multipart"

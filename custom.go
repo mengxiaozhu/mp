@@ -1,7 +1,7 @@
 package mp
 
 import (
-	respErr "mp/base"
+	respErr "github.com/mengxiaozhu/mp/base"
 	"net/url"
 )
 
