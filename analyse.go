@@ -2,7 +2,7 @@ package mp
 
 import (
 	"encoding/json"
-	"h5/modules/library/mp/base"
+	"mp/base"
 	"net/url"
 	"qiniupkg.com/x/log.v7"
 	"time"

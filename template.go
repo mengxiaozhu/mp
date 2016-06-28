@@ -2,7 +2,7 @@ package mp
 
 import "errors"
 import (
-	respErr "h5/response/error"
+	respErr "mp/base"
 	"net/url"
 )
 
@@ -19,7 +19,7 @@ type AllPrivateTemplate struct {
 	TemplateList []Template `json:"template_list"`
 }
 
-var CantFindTemplateErr respErr.Response = respErr.NewErrorRespones(errors.New("cant find template"))
+var CantFindTemplateErr respErr.ErrResp = respErr.NewErrResp(-1, errors.New("cant find template"))
 
 func (a *AllPrivateTemplate) FindTemplate(title string) (t *Template, err respErr.Response) {
 	for _, template := range a.TemplateList {

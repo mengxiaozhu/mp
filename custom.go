@@ -1,7 +1,7 @@
 package mp
 
 import (
-	respErr "h5/response/error"
+	respErr "mp/base"
 	"net/url"
 )
 

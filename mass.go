@@ -3,7 +3,7 @@ package mp
 import (
 	"bytes"
 	"encoding/json"
-	"h5/modules/library/mp/base"
+	"mp/base"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
