@@ -19,9 +19,9 @@ type AllPrivateTemplate struct {
 	TemplateList []Template `json:"template_list"`
 }
 
-var CantFindTemplateErr respErr.ErrResp = respErr.NewErrResp(-1, errors.New("cant find template"))
+var CantFindTemplateErr *respErr.ErrResp = respErr.NewErrResp(-1, errors.New("cant find template"))
 
-func (a *AllPrivateTemplate) FindTemplate(title string) (t *Template, err respErr.Response) {
+func (a *AllPrivateTemplate) FindTemplate(title string) (t *Template, err *respErr.ErrResp) {
 	for _, template := range a.TemplateList {
 		if template.Title == title {
 			return &template, nil
@@ -31,7 +31,7 @@ func (a *AllPrivateTemplate) FindTemplate(title string) (t *Template, err respEr
 
 }
 
-func (a *AllPrivateTemplate) FindTemplateById(templateId string) (t *Template, err respErr.Response) {
+func (a *AllPrivateTemplate) FindTemplateById(templateId string) (t *Template, err *respErr.ErrResp) {
 	for _, template := range a.TemplateList {
 		if template.TemplateId == templateId {
 			return &template, nil
@@ -41,7 +41,7 @@ func (a *AllPrivateTemplate) FindTemplateById(templateId string) (t *Template, e
 
 }
 
-func (m *Mp) GetAllPrivateTemplate() (templates *AllPrivateTemplate, err respErr.Response) {
+func (m *Mp) GetAllPrivateTemplate() (templates *AllPrivateTemplate, err *respErr.ErrResp) {
 	templates = &AllPrivateTemplate{}
 	err = m.CgiGet(templates, "/cgi-bin/template/get_all_private_template", url.Values{})
 	return
@@ -61,7 +61,7 @@ func (i *Industry) IsDustry(secondIndustry string) bool {
 	return i.PrimaryIndustry.SecondClass == secondIndustry || i.SecondaryIndustry.SecondClass == secondIndustry
 }
 
-func (m *Mp) GetIndustry() (industry *Industry, err respErr.Response) {
+func (m *Mp) GetIndustry() (industry *Industry, err *respErr.ErrResp) {
 	industry = &Industry{}
 	err = m.CgiGet(industry, "/cgi-bin/template/get_industry", url.Values{})
 	return
@@ -75,14 +75,14 @@ type ApiAddTemplateResponse struct {
 	TemplateId string `json:"template_id"`
 }
 
-func (m *Mp) ApiAddTemplate(templateIdShort string) (resp *ApiAddTemplateResponse, err respErr.Response) {
+func (m *Mp) ApiAddTemplate(templateIdShort string) (resp *ApiAddTemplateResponse, err *respErr.ErrResp) {
 	resp = &ApiAddTemplateResponse{}
 	req := &ApiAddTemplateRequest{templateIdShort}
 	err = m.Cgi(resp, "/cgi-bin/template/api_add_template", url.Values{}, req)
 	return
 }
 
-func (m *Mp) FindOrCreateTemplateIdByTitle(title string, shortId string) (templateId string, err respErr.Response) {
+func (m *Mp) FindOrCreateTemplateIdByTitle(title string, shortId string) (templateId string, err *respErr.ErrResp) {
 
 	// 检查是否已经添加了对应的模板
 	templates, err := m.GetAllPrivateTemplate()
@@ -105,7 +105,7 @@ func (m *Mp) FindOrCreateTemplateIdByTitle(title string, shortId string) (templa
 }
 
 // 查找模板,当err为空时,一定返回一个Template结构体,否则返回一个可以Response的错误信息
-func (m *Mp) FindTemplate(templateId string) (template *Template, err respErr.Response) {
+func (m *Mp) FindTemplate(templateId string) (template *Template, err *respErr.ErrResp) {
 	// 检查是否已经添加了对应的模板
 	templates, err := m.GetAllPrivateTemplate()
 	if err != nil {
@@ -122,7 +122,7 @@ type TemplateMessage struct {
 	Data       interface{} `json:"data"`
 }
 
-func (m *Mp) SendTemplateMessage(openId string, templateId string, messageUrl string, data interface{}) (err respErr.Response) {
+func (m *Mp) SendTemplateMessage(openId string, templateId string, messageUrl string, data interface{}) (err *respErr.ErrResp) {
 	templateMessage := &TemplateMessage{
 		ToUser:     openId,
 		TemplateId: templateId,

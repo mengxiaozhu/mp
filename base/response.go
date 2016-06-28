@@ -2,20 +2,6 @@ package base
 
 import (
 	"encoding/json"
-	"qiniupkg.com/x/errors.v7"
-)
-
-var (
-	UnknownCode int64 = -1
-)
-
-var (
-	UnknownErr error = errors.New("unknown err")
-)
-
-var (
-	OK             Resp    = Resp{Code: 0, Msg: "OK"}
-	UnknownErrResp ErrResp = NewUnknownErrResp(UnknownErr)
 )
 
 type Resp struct {
@@ -44,16 +30,12 @@ func (e ErrResp) Error() string {
 func (e ErrResp) Marshal() ([]byte, error) {
 	return json.Marshal(e)
 }
+//
+//type Response interface {
+//	Error() string
+//	Marshal() ([]byte, error)
+//}
 
-type Response interface {
-	Error() string
-	Marshal() ([]byte, error)
-}
-
-func NewUnknownErrResp(err error) (resp ErrResp) {
-	return NewErrResp(UnknownCode, err)
-}
-
-func NewErrResp(code int64, err error) (resp ErrResp) {
-	return ErrResp{Resp{code, err.Error()}}
+func NewErrResp(code int64, err error) (resp *ErrResp) {
+	return &ErrResp{Resp{code, err.Error()}}
 }

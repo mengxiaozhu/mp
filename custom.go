@@ -7,7 +7,7 @@ import (
 
 // 可以发送的客服消息
 type CustomMessageRequest interface {
-	Send(*Mp) (*WechatApiError, respErr.Response)
+	Send(*Mp) (*WechatApiError, *respErr.ErrResp)
 }
 
 // 客服消息
@@ -27,7 +27,7 @@ type TextCustomMessageRequest struct {
 	Text TextMessage `json:"text"`
 }
 
-func (t *TextCustomMessageRequest) Send(m *Mp) (*WechatApiError, respErr.Response) {
+func (t *TextCustomMessageRequest) Send(m *Mp) (*WechatApiError, *respErr.ErrResp) {
 	return m.SendCustomMessage(t)
 }
 
@@ -55,7 +55,7 @@ func NewArticleCustomMessageRequest() (articleCustomMessageRequest *ArticleCusto
 	return articleCustomMessageRequest
 }
 
-func (t *ArticleCustomMessageRequest) Send(m *Mp) (*WechatApiError, respErr.Response) {
+func (t *ArticleCustomMessageRequest) Send(m *Mp) (*WechatApiError, *respErr.ErrResp) {
 	return m.SendCustomMessage(t)
 }
 
@@ -87,7 +87,7 @@ func (t *ArticleCustomMessageRequest) PicUrl(picUrl string) *ArticleCustomMessag
 }
 
 // 发送客服消息
-func (m *Mp) SendCustomMessage(req CustomMessageRequest) (resp *WechatApiError, err respErr.Response) {
+func (m *Mp) SendCustomMessage(req CustomMessageRequest) (resp *WechatApiError, err *respErr.ErrResp) {
 	resp = &WechatApiError{}
 	err = m.Cgi(resp, "/cgi-bin/message/custom/send", url.Values{}, req)
 	return

@@ -2,10 +2,10 @@ package mp
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	mpBase "github.com/mengxiaozhu/mp/base"
 	"net/url"
+	"errors"
 )
 
 // 微信的错误信息
@@ -20,7 +20,7 @@ type ErrorResponse struct {
 	Data WechatApiError `json:"data"`
 }
 
-func (m *Mp) Cgi(dest interface{}, method string, params url.Values, body interface{}) (err mpBase.Response) {
+func (m *Mp) Cgi(dest interface{}, method string, params url.Values, body interface{}) (err *mpBase.ErrResp) {
 
 	params.Add("access_token", m.Token)
 	u := "http://api.weixin.qq.com" + method + "?" + params.Encode()
@@ -64,6 +64,6 @@ func (m *Mp) Cgi(dest interface{}, method string, params url.Values, body interf
 	return nil
 }
 
-func (m *Mp) CgiGet(dest interface{}, method string, params url.Values) (err mpBase.Response) {
+func (m *Mp) CgiGet(dest interface{}, method string, params url.Values) (err *mpBase.ErrResp) {
 	return m.Cgi(dest, method, params, "")
 }
