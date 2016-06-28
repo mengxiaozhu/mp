@@ -2,6 +2,7 @@ package mp
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	mpBase "github.com/mengxiaozhu/mp/base"
 	"net/url"
@@ -48,20 +49,17 @@ func (m *Mp) Cgi(dest interface{}, method string, params url.Values, body interf
 	errUnmarshalApiErr := json.Unmarshal(bytesTransfer, &wechatApiErr)
 
 	if errUnmarshalApiErr != nil {
-		return &mpBase.ErrResp{mpBase.Resp{-1, "api error:" + string(bytesTransfer)}}
+		return mpBase.NewErrResp(-1, errUnmarshalApiErr)
 	}
 
 	if wechatApiErr.ErrCode != 0 {
-		return &ErrorResponse{
-			ErrResp: mpBase.ErrResp{mpBase.Resp{-1, "api error:" + string(bytesTransfer)}},
-			Data:          wechatApiErr,
-		}
+		return mpBase.NewErrResp(wechatApiErr.ErrCode, errors.New(wechatApiErr.ErrMsg))
 	}
 
 	errUnmarshalResponse := json.Unmarshal(bytesTransfer, dest)
 
 	if errUnmarshalResponse != nil {
-		return &mpBase.ErrResp{mpBase.Resp{-1, "api json:" + string(bytesTransfer)}}
+		return mpBase.NewErrResp(-1, errUnmarshalResponse)
 	}
 	return nil
 }
