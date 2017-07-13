@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/mengxiaozhu/mp/base"
 	"net/url"
-	"qiniupkg.com/x/log.v7"
+	"log"
 	"time"
 )
 

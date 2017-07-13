@@ -2,7 +2,7 @@ package mp
 
 import (
 	"net/url"
-	"qiniupkg.com/x/errors.v7"
+	"errors"
 )
 
 type Tag struct {
