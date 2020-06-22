@@ -23,7 +23,7 @@ type ErrorResponse struct {
 func (m *Mp) Cgi(dest interface{}, method string, params url.Values, body interface{}) (err *mpBase.ErrResp) {
 
 	params.Add("access_token", m.Token)
-	u := "http://api.weixin.qq.com" + method + "?" + params.Encode()
+	u := "https://api.weixin.qq.com" + method + "?" + params.Encode()
 	var bytesTransfer []byte
 	var errTransfer error
 	if "" != body {
